@@ -24,7 +24,7 @@ if( isset( $_GET['uploadfiles'] ) ){
     $query = "UPDATE users SET image_dir='$files' WHERE id='$user_id'";
     $result = mysqli_query($connection, $query);
 
-    $data = $error ? array('error' => 'Ошибка загрузки файлов.') : array('files' => $files);
+    $data = $error ? array('error' => 'Ошибка загрузки файлов.') : array('files' => $files,'ses_id'=>session_id());
 
     echo json_encode( $data );
     session_destroy();

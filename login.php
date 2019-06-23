@@ -1,6 +1,11 @@
 <?php
+ini_set('session.save_handler', 'memcache');
+ini_set('session.save_path', 'tcp://localhost:11211');
+ini_set('session.use_strict_mode', 1);
+session_start();
+session_regenerate_id();
+$_SESSION['id'] = session_id();
 require('connect.php');
-require('session.php');
 if(isset($_POST['email']) and isset($_POST['password'])){
     $email = $_POST['email'];
     $password = $_POST['password'];

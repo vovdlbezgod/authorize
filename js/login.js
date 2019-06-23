@@ -1,4 +1,6 @@
 $(document).ready(function(){
+    var pattern = /^([a-z0-9_\.-])+[@][a-z0-9-]+\.([a-z]{2,4}\.)?[a-z]{2,4}$/i;
+    $('div[class="help-email"]').css("display", "none");
     var request;
     var files;
     $('input[type=file]').change(function(){
@@ -7,6 +9,7 @@ $(document).ready(function(){
 
     $('#Registration').css("display","block");
     $('#regButton').click(function(){
+        $('#msgValidateEmail').css("display", "none");
         if (request) {
             request.abort();
         }
@@ -16,7 +19,7 @@ $(document).ready(function(){
         $('#msgUsr').css("display", "none");
         $('#msgPass').css("display", "none");
         if(pass === passRepeat){
-            if(email){
+            if(pattern.test(email)) {
                 var serializedData = {'email': email, 'password': pass};
                 $.post('reg.php', serializedData, function (response) {
                     console.log("Response: "+response);
@@ -31,6 +34,8 @@ $(document).ready(function(){
                         $('#msgUsr').css("display", "block");
                     }
                 });
+            }else {
+                $('#msgValidateEmail').css("display", "block");
             }
         }else {
             $('#msgPass').css("display", "block");
@@ -64,7 +69,7 @@ $(document).ready(function(){
 
                 if( typeof respond.error === 'undefined' ){
                     console.log("Успешно");
-                    console.log("JsonData: "+respond.files);
+                    console.log("JsonData: "+JSON.stringify(respond));
                     $('#msgAvatar').css("display", "block");
                     $('#UploadPicture').css("display", "none");
                     $('#Login').css("display", "block");
@@ -89,6 +94,7 @@ $(document).ready(function(){
         $('#Login').css("display", "block");
     });
     $('#logButton').click(function(event){
+        $('#msgValidateEmail').css("display", "none");
         $('#Registration').css("display", "none");
         $('#msgAvatar').css("display", "none");
         $('#msgUsrEmpty').css("display", "none");
@@ -101,32 +107,34 @@ $(document).ready(function(){
         var email = $('#emailLog').val(),
             pass = $('#passLog').val();
 
-        if(email && pass){
-            var serializedData = {'email': email, 'password': pass};
-            $.post('login.php', serializedData, function (response) {
-                console.log("Response: "+response);
-                var jsonData = JSON.parse(response);
-                console.log("JsonData: "+jsonData);
-                if (jsonData.success == "0"){
-                    $('#Login').css("display", "none");
-                    $('#User').css("display", "block");
-                    var session_id = jsonData.session_id,
-                        email = jsonData.email,
-                        dir_img = jsonData.image_dir;
-                    $('#session_id').text("Сессия: " + session_id);
-                    $('#user_email').text("E-mail: " + email);
-                    $('#user_dir').text("Директория: " + dir_img);
-                }
-                else{
-                    $('#msgUsrEmpty').css("display", "block");
-                }
-            });
+        if(pattern.test(email)) {
+            if (email && pass) {
+                var serializedData = {'email': email, 'password': pass};
+                $.post('login.php', serializedData, function (response) {
+                    console.log("Response: " + response);
+                    var jsonData = JSON.parse(response);
+                    console.log("JsonData: " + jsonData);
+                    if (jsonData.success == "0") {
+                        $('#Login').css("display", "none");
+                        $('#User').css("display", "block");
+                        var session_id = jsonData.session_id,
+                            email = jsonData.email,
+                            dir_img = jsonData.image_dir;
+                        $('#session_id').text("Сессия: " + session_id);
+                        $('#user_email').text("E-mail: " + email);
+                        $('#user_dir').text("Директория: " + dir_img);
+                    } else {
+                        $('#msgUsrEmpty').css("display", "block");
+                    }
+                });
+            }
+        }else {
+            $('#msgValidateEmail').css("display", "block");
         }
-
 
     });
     $('#logOutButton').click(function () {
-        $.get('logout.php', function( data ) {
+        $.post('logout.php', null, function( data ) {
             console.log(data);
         });
     });
