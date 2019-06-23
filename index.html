@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="js/vendor/tilt/tilt.jquery.min.js"></script>
+    <script src="js/login.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="msgPass" class='alert alert-danger' role='alert'>Пароли не совпадают</div>
+    <div id="msgUsr" class='alert alert-danger' role='alert'>Такой пользователь уже зарегистрирован</div>
+    <div id="msgAvatar" class='alert alert-success' role='alert'>Аватарка загружена</div>
+    <div id="msgReg" class='alert alert-success' role='alert'>Регистрация прошла успешно</div>
+    <div class="container" id="Registration">
+        <form class="form-signin">
+            <h2>Регистрация</h2>
+            <input type="text" name="email" id="emailReg" class="form-control" placeholder="E-mail" required>
+            <input type="password" name="password" id="passReg" class="form-control" placeholder="Password" required>
+            <input type="password" name="repeat_password" id="passRepReg" class="form-control" placeholder="Repeat Password" required>
+            <button class="btn btn-lg btn-primary btn-block" type="button" id="regButton">Зарегистрироваться</button>
+        </form>
+    </div>
+    <div class="container" id="UploadPicture">
+        <form class="form-signin">
+            <h2>Загрузить картинку</h2>
+            <input class="btn btn-lg btn-primary btn-block" type="file" name="photo" multiple accept="image/*,image/jpeg">
+            <button class="btn btn-lg btn-primary btn-block" type="button" id="sendPicture">Загрузить</button>
+        </form>
+    </div>
+    <div class="container" id="Login">
+        <form class="form-signin">
+            <h2>Логин</h2>
+            <input type="text" name="email" id="emailLog" class="form-control" placeholder="E-mail" required>
+            <input type="password" name="password" id="passLog" class="form-control" placeholder="Password" required>
+            <button class="btn btn-lg btn-primary btn-block" type="button" id="logButton">Войти</button>
+        </form>
+    </div>
+</body>
+</html>
